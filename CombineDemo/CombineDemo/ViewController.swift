@@ -6,14 +6,143 @@
 //
 
 import UIKit
+import Combine
+import Alamofire
 
 class ViewController: UIViewController {
-
+    
+    @Published var cellModels: [CellViewModel] = []
+    
+    var subscriptions = Set<AnyCancellable>()
+    
+    let viewModel = ViewModel()
+    
+    lazy var tableView: UITableView = {
+        let view = UITableView()
+        view.delegate = self
+        view.dataSource = self
+        view.register(ListCell.self, forCellReuseIdentifier: "cell")
+        view.estimatedRowHeight = 70
+        view.separatorStyle = .none
+        return view
+    }()
+    
+    lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .medium)
+        view.color = .red
+        return view
+    }()
+    
+    lazy var statusView: StateView = {
+        let view = StateView()
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        makeUI()
+        bindViewModel()
+        loadData()
+        
     }
-
-
+    
+    // 取消单个请求
+    func cancelRequest() {
+        let url = "https://inshorts.deta.dev/news?category=business"
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            // 由于withAllRequests方法是异步调用的（防止阻塞请求的创建），主线程发起的请求马上调用这个方法是找不到的，所以延时下调用
+            AF.withAllRequests { requests in
+                let find = requests.filter { $0.request?.url?.absoluteString == url }.first
+                find?.cancel()
+            }
+        })
+    }
+    
+    // 取消所有请求
+    func cancelAll() {
+        AF.cancelAllRequests()
+    }
+    
+    func makeUI() {
+        view.addSubview(tableView)
+        view.addSubview(activityView)
+        view.addSubview(statusView)
+        
+        tableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        activityView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
+        statusView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(200)
+        }
+    }
+    
+    func loadData() {
+        viewModel.fetchData()
+            .sink {
+                switch $0 {
+                case .failure(let error):
+                    if let err = error as? AFError {
+                        if !err.isExplicitlyCancelledError { // 是否是用户取消的
+                            if let urlError = err.underlyingError as? URLError, urlError.code == .timedOut {
+                                print("timeout")
+                            }
+                        } else {
+                            print("err=\(err), status = \(err.responseCode ?? -1)")
+                        }
+                    } else if let err = error as? MyError {
+                        print(err)
+                    }
+                case .finished:
+                    break
+                }
+            } receiveValue: { models in
+                self.cellModels = models
+                self.tableView.reloadData()
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func bindViewModel() {
+        viewModel.$loading
+            .sink { [weak self] isloading in
+                self?.activityView.isHidden = !isloading
+                if isloading {
+                    self?.activityView.startAnimating()
+                } else {
+                    self?.activityView.stopAnimating()
+                }
+            }
+            .store(in: &subscriptions)
+        
+        statusView.bind(viewModel: viewModel)
+    }
 }
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        cellModels.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ListCell
+        let model = cellModels[indexPath.row]
+        cell.bind(viewModel: model)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if viewModel.state.rawValue < 3 {
+            viewModel.state = Status(rawValue: viewModel.state.rawValue + 1) ?? .normal
+        } else {
+            viewModel.state = .normal
+        }        
+    }
+}
+
 
