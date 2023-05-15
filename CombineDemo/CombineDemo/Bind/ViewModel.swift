@@ -10,7 +10,7 @@ import Combine
 import Alamofire
 
 enum MyError: Error {
-    case apiError
+    case serviceError
     case parseError
 }
 
@@ -82,15 +82,10 @@ class ViewModel {
             .tryMap { [weak self] response in
                 self?.loading = false
                 switch response.result {
-                case .failure(let error):
-                    throw error
+                case .failure(let error): throw error
                 case .success(let list):
-                    guard list.success else {
-                        throw MyError.apiError
-                    }
-                    guard let data = list.data else {
-                        throw MyError.parseError
-                    }
+                    guard list.success else { throw MyError.serviceError }
+                    guard let data = list.data else { throw MyError.parseError }
                     return data.map { CellViewModel(model: $0) }
                 }
             }

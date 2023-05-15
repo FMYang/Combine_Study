@@ -35,8 +35,15 @@ class ViewController: UIViewController {
     
     lazy var statusView: StateView = {
         let view = StateView()
+        view.isHidden = true
         return view
     }()
+    
+//    lazy var btn: UIButton = {
+//        let btn = UIButton()
+//        btn.backgroundColor = .red
+//        return btn
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +51,9 @@ class ViewController: UIViewController {
         bindViewModel()
         loadData()
         
+//        btn.publisher.sink {
+//            print("tap Click!")
+//        }.store(in: &subscriptions)
     }
     
     // 取消单个请求
@@ -84,8 +94,8 @@ class ViewController: UIViewController {
     
     func loadData() {
         viewModel.fetchData()
-            .sink {
-                switch $0 {
+            .sink { completion in
+                switch completion {
                 case .failure(let error):
                     if let err = error as? AFError {
                         if !err.isExplicitlyCancelledError { // 是否是用户取消的
@@ -112,11 +122,7 @@ class ViewController: UIViewController {
         viewModel.$loading
             .sink { [weak self] isloading in
                 self?.activityView.isHidden = !isloading
-                if isloading {
-                    self?.activityView.startAnimating()
-                } else {
-                    self?.activityView.stopAnimating()
-                }
+                isloading ? self?.activityView.startAnimating() : self?.activityView.stopAnimating()
             }
             .store(in: &subscriptions)
         

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		88143F422A0DD6D60074E6EF /* CellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88143F412A0DD6D60074E6EF /* CellViewModel.swift */; };
 		88143F462A0E41AE0074E6EF /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88143F452A0E41AE0074E6EF /* StateView.swift */; };
+		88143F492A1229500074E6EF /* UIButton+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88143F482A1229500074E6EF /* UIButton+Combine.swift */; };
 		886CB39F2A0CFAE60093033B /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886CB39E2A0CFAE60093033B /* ListCell.swift */; };
 		886CB3A12A0CFAEC0093033B /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886CB3A02A0CFAEC0093033B /* ViewModel.swift */; };
 		886CB3A32A0CFAF50093033B /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886CB3A22A0CFAF50093033B /* Model.swift */; };
@@ -24,6 +25,8 @@
 /* Begin PBXFileReference section */
 		88143F412A0DD6D60074E6EF /* CellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewModel.swift; sourceTree = "<group>"; };
 		88143F452A0E41AE0074E6EF /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
+		88143F482A1229500074E6EF /* UIButton+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Combine.swift"; sourceTree = "<group>"; };
+		88143F4A2A1243300074E6EF /* Filtering.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Filtering.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		886CB39E2A0CFAE60093033B /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		886CB3A02A0CFAEC0093033B /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		886CB3A22A0CFAF50093033B /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -72,6 +75,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		88143F472A1229390074E6EF /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				88143F482A1229500074E6EF /* UIButton+Combine.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		88AB1C922A0CFAA800B9DE46 /* Bind */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +101,7 @@
 				88B89EBC2A08FCE400B671F7 /* PublisherAndSubscriber.playground */,
 				88B89EBD2A0B76DC00B671F7 /* Subject.playground */,
 				88B89EBF2A0B8EDF00B671F7 /* Transforming.playground */,
+				88143F4A2A1243300074E6EF /* Filtering.playground */,
 				88B89EA72A08FCAB00B671F7 /* CombineDemo */,
 				88B89EA62A08FCAB00B671F7 /* Products */,
 				74F6B16C978C902239CACA10 /* Pods */,
@@ -108,6 +120,7 @@
 		88B89EA72A08FCAB00B671F7 /* CombineDemo */ = {
 			isa = PBXGroup;
 			children = (
+				88143F472A1229390074E6EF /* Extension */,
 				88AB1C922A0CFAA800B9DE46 /* Bind */,
 				88B89EA82A08FCAB00B671F7 /* AppDelegate.swift */,
 				88B89EAA2A08FCAB00B671F7 /* SceneDelegate.swift */,
@@ -243,6 +256,7 @@
 				88B89EA92A08FCAB00B671F7 /* AppDelegate.swift in Sources */,
 				88143F462A0E41AE0074E6EF /* StateView.swift in Sources */,
 				88B89EAB2A08FCAB00B671F7 /* SceneDelegate.swift in Sources */,
+				88143F492A1229500074E6EF /* UIButton+Combine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
