@@ -143,5 +143,32 @@ func method2() {
     NotificationCenter.default.post(name: Notification.Name("MyNotification"), object: nil)
 }
 
-method1()
-method2()
+//method1()
+//method2()
+
+
+example(of: "text") {
+    let i: Int = 0
+    print(Float(i))
+    
+//    class MyGenericClass<T> {
+//        var value: T
+//        var nonGenericProperty: String = ""
+//        
+//        init(value: T) {
+//            self.value = value
+//        }
+//    }
+//    
+//    class P {
+//        func test<T>(cls: MyGenericClass<T>) {
+//            let aa = cls.value
+////            let aa = Float(cls.value)
+//            print(aa)
+//        }
+//    }
+//    
+//    let myObj = MyGenericClass(value: 10)
+//    let xxx = P()
+//    xxx.test(cls: myObj)
+}

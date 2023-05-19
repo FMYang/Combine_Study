@@ -11,6 +11,7 @@ import Alamofire
 
 class ViewController: UIViewController {
     
+    @Published var isLoading: Bool = false
     @Published var cellModels: [CellViewModel] = []
     
     var subscriptions = Set<AnyCancellable>()
@@ -35,7 +36,7 @@ class ViewController: UIViewController {
     
     lazy var statusView: StateView = {
         let view = StateView()
-        view.isHidden = true
+//        view.isHidden = true
         return view
     }()
     
@@ -93,35 +94,49 @@ class ViewController: UIViewController {
     }
     
     func loadData() {
+        // 使用combine
+        isLoading = true
         viewModel.fetchData()
-            .sink { completion in
+            .sink { [weak self] completion in
+                self?.isLoading = false
                 switch completion {
                 case .failure(let error):
                     if let err = error as? AFError {
-                        if !err.isExplicitlyCancelledError { // 是否是用户取消的
+                        if !err.isExplicitlyCancelledError { // 不是用户取消的
                             if let urlError = err.underlyingError as? URLError, urlError.code == .timedOut {
                                 print("timeout")
+                            } else {
+                                print(error)
                             }
                         } else {
-                            print("err=\(err), status = \(err.responseCode ?? -1)")
+                            // 用户取消的 do nothing
                         }
-                    } else if let err = error as? MyError {
+                    } else if let err = error as? APIError {
                         print(err)
                     }
                 case .finished:
                     break
                 }
-            } receiveValue: { models in
-                self.cellModels = models
-                self.tableView.reloadData()
+            } receiveValue: { [weak self] models in
+                self?.cellModels = models
+                self?.tableView.reloadData()
             }
             .store(in: &subscriptions)
+        
+        // 不使用combine
+//        isLoading = true
+//        viewModel.fetchWorldWithoutCombine { [weak self] cellModels in
+//            self?.isLoading = false
+//            self?.cellModels = cellModels
+//            self?.tableView.reloadData()
+//        } fail: { error in
+//            print(error)
+//        }
     }
     
     func bindViewModel() {
-        viewModel.$loading
+        $isLoading
             .sink { [weak self] isloading in
-                self?.activityView.isHidden = !isloading
                 isloading ? self?.activityView.startAnimating() : self?.activityView.stopAnimating()
             }
             .store(in: &subscriptions)
@@ -143,11 +158,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if viewModel.state.rawValue < 3 {
-            viewModel.state = Status(rawValue: viewModel.state.rawValue + 1) ?? .normal
-        } else {
-            viewModel.state = .normal
-        }        
+//        if viewModel.state.rawValue < 3 {
+//            viewModel.state = Status(rawValue: viewModel.state.rawValue + 1) ?? .normal
+//        } else {
+//            viewModel.state = .normal
+//        }
+        cellModels[0].title = "111"
     }
 }
 

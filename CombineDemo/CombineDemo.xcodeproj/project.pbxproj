@@ -19,6 +19,7 @@
 		88B89EB02A08FCAB00B671F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88B89EAE2A08FCAB00B671F7 /* Main.storyboard */; };
 		88B89EB22A08FCAC00B671F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88B89EB12A08FCAC00B671F7 /* Assets.xcassets */; };
 		88B89EB52A08FCAC00B671F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88B89EB32A08FCAC00B671F7 /* LaunchScreen.storyboard */; };
+		88C4A8032A160955008E6E1F /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C4A8022A160955008E6E1F /* APIService.swift */; };
 		AB633D5DA1C688BBC986E9CD /* Pods_CombineDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5522F70BE4A61EC8440ECE /* Pods_CombineDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,8 @@
 		88143F452A0E41AE0074E6EF /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
 		88143F482A1229500074E6EF /* UIButton+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Combine.swift"; sourceTree = "<group>"; };
 		88143F4A2A1243300074E6EF /* Filtering.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Filtering.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		88143F4B2A1321930074E6EF /* Combining.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Combining.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		88143F4C2A1337480074E6EF /* Sequence.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Sequence.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		886CB39E2A0CFAE60093033B /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		886CB3A02A0CFAEC0093033B /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		886CB3A22A0CFAF50093033B /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -41,6 +44,8 @@
 		88B89EBC2A08FCE400B671F7 /* PublisherAndSubscriber.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = PublisherAndSubscriber.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		88B89EBD2A0B76DC00B671F7 /* Subject.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Subject.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		88B89EBF2A0B8EDF00B671F7 /* Transforming.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Transforming.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		88C4A8012A13609E008E6E1F /* API.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = API.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		88C4A8022A160955008E6E1F /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		8EA003FCD558C19AAB8DC0C1 /* Pods-CombineDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CombineDemo.debug.xcconfig"; path = "Target Support Files/Pods-CombineDemo/Pods-CombineDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		AC05E9BBB023887FD723B7FC /* Pods-CombineDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CombineDemo.release.xcconfig"; path = "Target Support Files/Pods-CombineDemo/Pods-CombineDemo.release.xcconfig"; sourceTree = "<group>"; };
 		EA5522F70BE4A61EC8440ECE /* Pods_CombineDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CombineDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,6 +96,7 @@
 				886CB3A02A0CFAEC0093033B /* ViewModel.swift */,
 				88143F412A0DD6D60074E6EF /* CellViewModel.swift */,
 				88143F452A0E41AE0074E6EF /* StateView.swift */,
+				88C4A8022A160955008E6E1F /* APIService.swift */,
 			);
 			path = Bind;
 			sourceTree = "<group>";
@@ -102,6 +108,9 @@
 				88B89EBD2A0B76DC00B671F7 /* Subject.playground */,
 				88B89EBF2A0B8EDF00B671F7 /* Transforming.playground */,
 				88143F4A2A1243300074E6EF /* Filtering.playground */,
+				88143F4B2A1321930074E6EF /* Combining.playground */,
+				88143F4C2A1337480074E6EF /* Sequence.playground */,
+				88C4A8012A13609E008E6E1F /* API.playground */,
 				88B89EA72A08FCAB00B671F7 /* CombineDemo */,
 				88B89EA62A08FCAB00B671F7 /* Products */,
 				74F6B16C978C902239CACA10 /* Pods */,
@@ -254,6 +263,7 @@
 				88143F422A0DD6D60074E6EF /* CellViewModel.swift in Sources */,
 				886CB3A32A0CFAF50093033B /* Model.swift in Sources */,
 				88B89EA92A08FCAB00B671F7 /* AppDelegate.swift in Sources */,
+				88C4A8032A160955008E6E1F /* APIService.swift in Sources */,
 				88143F462A0E41AE0074E6EF /* StateView.swift in Sources */,
 				88B89EAB2A08FCAB00B671F7 /* SceneDelegate.swift in Sources */,
 				88143F492A1229500074E6EF /* UIButton+Combine.swift in Sources */,

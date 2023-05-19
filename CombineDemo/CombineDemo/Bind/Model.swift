@@ -7,23 +7,13 @@
 
 import Foundation
 
-//class Model {
-//    var title: String = ""
-//    var content: String = ""
-//
-//    init(title: String, content: String) {
-//        self.title = title
-//        self.content = content
-//    }
-//}
-
-class ListModel: Codable {
+struct ListModel: Codable {
     var success: Bool = false
     var category: String?
     var data: [Model]?
 }
 
-class Model: Codable {
+struct Model: Codable {
     var id: String?
     var title: String?
     var imageUrl: String?
