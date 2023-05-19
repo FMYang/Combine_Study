@@ -40,7 +40,11 @@ class ViewModel {
     @Published var state: Status = .normal
     
     func fetchData() -> AnyPublisher<[CellViewModel], Error> {
-        return fetchWorldAndBusiness()
+        
+//        return fetchWorldAndBusiness()
+        
+        return fetch(targets: [NewsAPI.business, NewsAPI.world])
+        
     }
     
     func fetchWorldWithoutCombine(success: @escaping ([CellViewModel]) -> Void,
@@ -67,16 +71,30 @@ class ViewModel {
             }
     }
     
-    func fetchWorldAndBusiness() -> AnyPublisher<[CellViewModel], Error> {
+    // 请求bussiness + world使用merge合并
+    func fetchWorldAndBusiness2() -> AnyPublisher<[CellViewModel], Error> {
         let bussinessPublisher = fetchBussiness()
         let worldPublisher = fetchWorld()
         
+        return Publishers
+            .Merge(bussinessPublisher, worldPublisher)
+            .collect() // [[businesses], [worlds]]
+            .map { $0.flatMap { $0 } } // [businesses + worlds]
+            .eraseToAnyPublisher()
+    }
+    
+    // 请求bussiness + world使用zip合并
+    func fetchWorldAndBusiness() -> AnyPublisher<[CellViewModel], Error> {
+        let bussinessPublisher = fetchBussiness()
+        let worldPublisher = fetchWorld()
+
         return bussinessPublisher
             .zip(worldPublisher)
             .map { return $0 + $1 }
             .eraseToAnyPublisher()
     }
-    
+
+    // 请求Bussiness
     func fetchBussiness() -> AnyPublisher<[CellViewModel], Error> {
         return APIService
             .request(target: NewsAPI.business,
@@ -93,6 +111,7 @@ class ViewModel {
             .eraseToAnyPublisher()
     }
     
+    // 请求world
     func fetchWorld() -> AnyPublisher<[CellViewModel], Error> {
         return APIService
             .request(target: NewsAPI.world,
@@ -106,6 +125,34 @@ class ViewModel {
                     return data.map { CellViewModel(model: $0) }
                 }
             }
+            .eraseToAnyPublisher()
+    }
+    
+    // 请求多个使用merge合并
+    func fetch(targets: [APITarget]) -> AnyPublisher<[CellViewModel], Error> {
+        var requests: [AnyPublisher<[CellViewModel], Error>] = []
+        
+        for target in targets {
+            let request = APIService
+                .request(target: target,
+                         type: ListModel.self)
+                .tryMap { response in
+                    switch response.result {
+                    case .failure(let error): throw error
+                    case .success(let list):
+                        guard list.success else { throw APIError.serviceError }
+                        guard let data = list.data else { throw APIError.clientError }
+                        return data.map { CellViewModel(model: $0) }
+                    }
+                }
+                .eraseToAnyPublisher()
+            
+            requests.append(request)
+        }
+        
+        return Publishers.MergeMany(requests)
+            .collect()
+            .map { $0.flatMap { $0} }
             .eraseToAnyPublisher()
     }
 }

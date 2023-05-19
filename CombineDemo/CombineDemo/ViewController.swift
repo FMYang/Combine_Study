@@ -51,10 +51,6 @@ class ViewController: UIViewController {
         makeUI()
         bindViewModel()
         loadData()
-        
-//        btn.publisher.sink {
-//            print("tap Click!")
-//        }.store(in: &subscriptions)
     }
     
     // 取消单个请求

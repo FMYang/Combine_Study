@@ -243,3 +243,20 @@ example(of: "zip") {
     publisher1.send(completion: .finished)
     publisher2.send(completion: .finished)
 }
+
+example(of: "merge test") {
+    let publisher1 = Just([1, 2, 3])
+    let publisher2 = Just([4, 5, 6])
+
+    let combinedPublisher = Publishers.Merge(publisher1, publisher2)
+        .collect()
+        .map { $0.flatMap { $0 } }
+        .eraseToAnyPublisher()
+
+    combinedPublisher
+        .sink { combinedArray in
+            // 处理合并后的数组
+            print(combinedArray)
+        }
+        .store(in: &subscriptions)
+}
