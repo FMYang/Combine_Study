@@ -41,10 +41,11 @@ class ViewModel {
     
     func fetchData() -> AnyPublisher<[CellViewModel], Error> {
         
-//        return fetchWorldAndBusiness()
+        return fetchWorldAndBusiness()
         
-        return fetch(targets: [NewsAPI.business, NewsAPI.world])
+//        return fetch(targets: [NewsAPI.business, NewsAPI.world, NewsAPI.sports])
         
+//        return fetchWorld()
     }
     
     func fetchWorldWithoutCombine(success: @escaping ([CellViewModel]) -> Void,
@@ -87,11 +88,15 @@ class ViewModel {
     func fetchWorldAndBusiness() -> AnyPublisher<[CellViewModel], Error> {
         let bussinessPublisher = fetchBussiness()
         let worldPublisher = fetchWorld()
-
-        return bussinessPublisher
-            .zip(worldPublisher)
+        
+        // Zip4，最多4个
+        return Publishers.Zip(bussinessPublisher, worldPublisher)
             .map { return $0 + $1 }
             .eraseToAnyPublisher()
+
+//        return bussinessPublisher.zip(worldPublisher)
+//            .map { return $0 + $1 }
+//            .eraseToAnyPublisher()
     }
 
     // 请求Bussiness
@@ -130,6 +135,7 @@ class ViewModel {
     
     // 请求多个使用merge合并
     func fetch(targets: [APITarget]) -> AnyPublisher<[CellViewModel], Error> {
+
         var requests: [AnyPublisher<[CellViewModel], Error>] = []
         
         for target in targets {
@@ -140,6 +146,7 @@ class ViewModel {
                     switch response.result {
                     case .failure(let error): throw error
                     case .success(let list):
+                        // 业务码错误中断，整个序列中断。屏蔽掉下面这行可以不中断，序列中一个错误，不影响其他的展示
                         guard list.success else { throw APIError.serviceError }
                         guard let data = list.data else { throw APIError.clientError }
                         return data.map { CellViewModel(model: $0) }

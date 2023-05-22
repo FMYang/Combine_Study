@@ -11,7 +11,8 @@ enum OtherAPI {
     case list(Int)
 }
 
-extension OtherAPI: WorkTarget {
+extension OtherAPI: NewsTarget {
+    
     var baseURL: String {
         "https://other.com"
     }

@@ -52,9 +52,8 @@ class ListCell: UITableViewCell {
         viewModel.$url
             .map { return URL(string: $0) }
             .sink { [weak self] url in
-                if let url = url {
-                    self?.coverImageView.kf.setImage(with: .network(url))
-                }
+                guard let url = url else { return }
+                self?.coverImageView.kf.setImage(with: .network(url))
             }
             .store(in: &subscriptions)
     }

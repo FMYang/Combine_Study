@@ -7,11 +7,15 @@
 
 import Alamofire
 
-protocol WorkTarget: APITarget {
+protocol NewsTarget: APITarget {
 
 }
 
-extension WorkTarget {
+extension NewsTarget {
+    
+    var baseURL: String {
+        "https://inshorts.deta.dev"
+    }
     
     var params: [String : Any]? {
         nil

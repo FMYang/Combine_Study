@@ -10,12 +10,14 @@ import Alamofire
 enum NewsAPI {
     case business
     case world
+    case sports
 }
 
-extension NewsAPI: WorkTarget {
-
+extension NewsAPI: NewsTarget {
+    
     var baseURL: String {
-        "https://inshorts.deta.dev"
+        return HostConfig.url(.image)
+        return HostConfig.url()
     }
 
     var url: String {
@@ -28,12 +30,14 @@ extension NewsAPI: WorkTarget {
             return ["category": "business"]
         case .world:
             return ["category": "world"]
+        case .sports:
+            return ["category": "sports"]
         }
     }
 }
 
 //enum NewsAPI {
-//    case news(String)
+//    case news(category: String, id: Int)
 //}
 //
 //extension NewsAPI: WorkTarget {
@@ -48,8 +52,8 @@ extension NewsAPI: WorkTarget {
 //
 //    var params: [String : Any]? {
 //        switch self {
-//        case .news(let category):
-//            return ["category": category]
+//        case let .news(category, id):
+//            return ["category": category, "id": id]
 //        }
 //    }
 //}

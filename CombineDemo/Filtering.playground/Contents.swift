@@ -152,3 +152,20 @@ example(of: "prefix(untilOutputFrom:)") {
         }
     }
 }
+
+example(of: "throttle") {
+    let subject = PassthroughSubject<Int, Never>()
+    
+    subject
+        .eraseToAnyPublisher()
+        .throttle(for: .seconds(1), scheduler: DispatchQueue.main, latest: true) // 1s只能收到一次
+        .receive(on: RunLoop.main)
+        .sink(receiveValue: { print($0) })
+        .store(in: &subscriptions)
+
+    // 每秒发射10次
+//    Timer.publish(every: 0.1, on: .main, in: .common)
+//        .autoconnect()
+//        .sink { _ in subject.send(1) }
+//        .store(in: &subscriptions)
+}

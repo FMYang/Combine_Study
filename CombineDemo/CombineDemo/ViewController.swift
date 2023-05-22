@@ -40,17 +40,24 @@ class ViewController: UIViewController {
         return view
     }()
     
-//    lazy var btn: UIButton = {
-//        let btn = UIButton()
-//        btn.backgroundColor = .red
-//        return btn
-//    }()
+    lazy var btn: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = .red
+        return btn
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
         bindViewModel()
         loadData()
+        
+//        btn.tapPublisher
+//            .throttle(for: .seconds(1), scheduler: DispatchQueue.main, latest: true)
+//            .sink { _ in
+//                NSLog("Btn Click")
+//            }
+//            .store(in: &subscriptions)
     }
     
     // 取消单个请求
@@ -74,6 +81,7 @@ class ViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(activityView)
         view.addSubview(statusView)
+//        view.addSubview(btn)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -87,6 +95,11 @@ class ViewController: UIViewController {
             make.top.left.right.equalToSuperview()
             make.height.equalTo(200)
         }
+        
+//        btn.snp.makeConstraints { make in
+//            make.width.height.equalTo(100)
+//            make.center.equalToSuperview()
+//        }
     }
     
     func loadData() {

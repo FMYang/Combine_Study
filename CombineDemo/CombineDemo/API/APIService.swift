@@ -50,13 +50,11 @@ class APIService {
         // timeout
         var modifier: Session.RequestModifier? = nil
         if let timeoutInterval = target.timeoutInterval {
-            modifier = { url in
-                url.timeoutInterval = timeoutInterval
-            }
+            modifier = { $0.timeoutInterval = timeoutInterval }
         }
         
         // request headers
-        let headers = target.headers == nil ? defaultHeaders : HTTPHeaders(target.headers!)
+        let headers = (target.headers == nil) ? defaultHeaders : HTTPHeaders(target.headers!)
         
         return alamofire.request(target.baseURL + target.url,
                           method: target.method,
